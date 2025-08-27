@@ -3,6 +3,8 @@ using Catalog.API.Products.CreateProduct;
 
 namespace Catalog.API.Products.GetProducts
 {
+    //Not neccesary
+    //public record GetProductRequest();
     public record GetProductsResponse(IEnumerable<Product> Products);
     public class GetProductsEndpoint : ICarterModule
     {
@@ -15,7 +17,7 @@ namespace Catalog.API.Products.GetProducts
                 return Results.Ok(response);
             })
                 .WithName("GetProducts")
-                .Produces<CreateProductResponse>(StatusCodes.Status200OK)
+                .Produces<GetProductsResponse>(StatusCodes.Status200OK)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
                 .WithSummary("Get Products")
                 .WithDescription("Get Products");
