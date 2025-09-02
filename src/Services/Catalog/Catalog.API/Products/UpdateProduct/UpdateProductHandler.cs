@@ -28,7 +28,7 @@ namespace Catalog.API.Products.UpdateProduct
             logger.LogInformation("UpdateProductResult.Handle mehod called with {@Command}", command);
             var product = await session.LoadAsync<Product>(command.Id);
             if (product is null)
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException(command.Id);
 
             product.Name = command.Name;
             product.Category = command.Category;
