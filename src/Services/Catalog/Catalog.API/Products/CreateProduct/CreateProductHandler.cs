@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace Catalog.API.Products.CreateProduct
+﻿namespace Catalog.API.Products.CreateProduct
 {
     public record CreateProductCommand(string Name, List<string> Category, string Description, string ImageFile, decimal Price) : ICommand<CreateProductResult>;
     public record CreateProductResult(Guid Id);
@@ -16,7 +14,7 @@ namespace Catalog.API.Products.CreateProduct
         }
     }
 
-    internal class CreateProductCommandHandler(IDocumentSession session, ILogger<CreateProductCommandHandler> logger)
+    internal class CreateProductCommandHandler(IDocumentSession session)
         : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
@@ -24,8 +22,6 @@ namespace Catalog.API.Products.CreateProduct
             //Create a product entity from command object
             //Save to DB
             //Return CreateProductResult result
-            logger.LogInformation("CreateProductCommandHandler.Handle method call with {Command}", command);
-
             var product = new Product
             {
                 Name = command.Name,

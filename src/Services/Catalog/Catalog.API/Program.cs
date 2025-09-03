@@ -8,6 +8,8 @@ builder.Services.AddMediatR(config =>
     config.RegisterServicesFromAssembly(assembly);
     //Add a validator behavior al pipeline de MediatR enfocado en las reglas de negocio
     config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+    //Add a loggin behavior al pipeline de MediatR enfocado en las reglas de negocio
+    config.AddOpenBehavior(typeof(LogginBehavoir<,>));
 });
 
 builder.Services.AddValidatorsFromAssembly(assembly);
