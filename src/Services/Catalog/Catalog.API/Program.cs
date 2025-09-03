@@ -1,3 +1,6 @@
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,8 +24,17 @@ builder.Services.AddMarten(options =>
     options.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
 
+//Initialize data only in dev environment
+if (builder.Environment.IsDevelopment())
+    builder.Services.InitializeMartenWith<CatalogInitialData>();
+
 //Add custom exception handler as a service in the dependency injection
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
+
+//Define the dependency injection of the health validation process
+//NpgSql--> validate if the connection is healthy or not
+builder.Services.AddHealthChecks()
+    .AddNpgSql(builder.Configuration.GetConnectionString("Database")!);
 
 var app = builder.Build();
 
@@ -31,5 +43,13 @@ app.MapCarter();
 
 //configure the application to use our custom exception handler
 app.UseExceptionHandler(options => { });
+
+//Define the endpoint to validate the application health
+app.UseHealthChecks("/health",
+    new HealthCheckOptions
+    {
+        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+    }
+    );
 
 app.Run();
