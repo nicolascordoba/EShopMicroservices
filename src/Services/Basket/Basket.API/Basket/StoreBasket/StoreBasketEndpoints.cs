@@ -16,11 +16,11 @@
 
                 return Results.Created($"/basket/{response.UserName}", response);
             })
-                .WithName("StoreBasket")
+                .WithName("CreateProduct")
                 .Produces<StoreBasketResponse>(StatusCodes.Status201Created)
                 .ProducesProblem(StatusCodes.Status400BadRequest)
-                .WithSummary("Store Basket")
-                .WithDescription("Store Basket");
+                .WithSummary("Create Product")
+                .WithDescription("Create Product");
         }
     }
 }
