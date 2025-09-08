@@ -1,6 +1,4 @@
-using BuildingBlocks.Exceptions.Handler;
 using HealthChecks.UI.Client;
-using JasperFx.MultiTenancy;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
