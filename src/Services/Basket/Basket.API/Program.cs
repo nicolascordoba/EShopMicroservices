@@ -1,3 +1,5 @@
+using JasperFx.MultiTenancy;
+
 var builder = WebApplication.CreateBuilder(args);
 
 //Add services to the container
@@ -10,7 +12,13 @@ builder.Services.AddMediatR(config =>
     config.AddOpenBehavior(typeof(LogginBehavoir<,>));
 });
 
-var app = builder.Build(); 
+builder.Services.AddMarten(option =>
+{
+    option.Connection(builder.Configuration.GetConnectionString("Database")!);
+    option.Schema.For<ShoppingCart>().Identity(x => x.UserName);
+}).UseLightweightSessions();
+
+var app = builder.Build();
 
 // Configure HTTP request pipeline
 
